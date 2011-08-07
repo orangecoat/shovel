@@ -1,0 +1,16 @@
+# Shovel
+
+OrangeCoat's core Drupal makefile. This downloads the specified version of
+Drupal core along with [the dirt](http://github.com/orangecoat/dirt) to make
+breaking ground on a new Drupal project a breeze.
+
+## Using this makefile to update Drupal core
+
+There's a problem with using `drush up` to update Drupal core: any modifications
+you made to `.htaccess` or `.gitignore` files will be overwritten with Drupal's
+own version of those files. By using a make file such as this one, you can
+include patches for these files that will get automatically applied when you
+run `drush make shovel.make`. So when you want to update Drupal core, make sure
+those patches are included in `shovel.make` and change the version of core you
+want in the make file, then run `drush make shovel.make` and it will update core
+and reapply your patches. Yay!
