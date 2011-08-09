@@ -62,8 +62,10 @@ if [[ $proceed =~ ^[Yy]$ ]]; then
   I'll give you another shot.
     "
   done
-  echo
-  echo
+
+  echo "
+  While this is installing, make sure that password is safe somewhere! Go!
+  "
 
   drush site-install dirt\
     --db-url="mysql://$mysqluser$mysqlpasswd@localhost/$dbname"\
