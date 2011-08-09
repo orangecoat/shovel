@@ -66,13 +66,13 @@ if [[ $proceed =~ ^[Yy]$ ]]; then
   echo
 
   drush site-install dirt\
-    --db-url=mysql://$mysqluser$mysqlpasswd@localhost/$dbname\
-    --account-name=$username\
-    --account-pass=$passwd\
-    --account-mail=$email\
-    --site-mail=$email\
-    --site-name=$sitename\
-    --sites-subdir=oc-dev
+    --db-url="mysql://$mysqluser$mysqlpasswd@localhost/$dbname"\
+    --account-name="$username"\
+    --account-pass="$passwd"\
+    --account-mail="$email"\
+    --site-mail="$email"\
+    --site-name="$sitename"\
+    --sites-subdir="oc-dev"
 
   chmod -R 777 sites/oc-dev/files
 
