@@ -1,4 +1,4 @@
-#!/usr/bash
+#!/bin/bash
 #
 # This file will install Drupal the OC way.
 
@@ -6,7 +6,7 @@
 set -e
 
 # Clear out stuff from the shovel repo
-#rm -rf .git README.mkd
+rm -rf .git README.mkd
 # And download Drupal and contrib stuff
 drush make shovel.make -y
 
@@ -55,4 +55,33 @@ drush site-install dirt\
   --site-name=$sitename\
   --sites-subdir=oc-dev
 
-chmod 777 sites/oc-dev/files
+chmod -R 777 sites/oc-dev/files
+
+path=`pwd`
+subdir=`basename $path`
+read -p "What should the custom theme be named? (Human readable) [$subdir] " themename
+[[ $themename ]] || themename=$subdir
+read -p "What should the machine-name of the custom theme be? (lowercase and underscores only) [$subdir] " themename_machine
+[[ $themename_machine ]] || themename_machine=$themename
+
+themedir=sites/all/themes/$themename_machine
+git clone git://github.com/orangecoat/skeleton.git $themedir
+rm -rf $themedir/.git
+mv $themedir/skeleton.info $themedir/$themename_machine.info
+sed -i -e "s/Skeleton/$themename/g" $path/$themedir/$themename_machine.info
+
+echo "
+  Well that went surprisingly well. Now let's take care of a few things. Just
+  icing on the cake, really.
+"
+
+read -p "Would you like to enable securepages? (Beware, you'll regret this if you don't have SSL already set up properly) [y] " usessl
+if [[ $usessl =~ ^[Yy]$ ]]; then
+  drush vset securepages_enable 1 -l oc-dev --yes
+fi
+echo
+
+read -p "What is your api key for textcaptcha.com? " textcaptcha_api_key
+if [[ $textcaptcha_api_key ]]; then
+  drush vset textcaptcha_api_key $textcaptcha_api_key -l oc-dev --yes
+fi
