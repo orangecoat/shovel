@@ -13,7 +13,7 @@ api = 2
 
 projects[drupal][version] = 7.7
 ; Keep our .htaccess and robots.txtfiles customized even after updating
-projects[drupal][patch][] = "https://raw.github.com/gist/1131120/6fffe6f21643e1b0eaab0a245cb28070a26380c6/htaccess-robots-custom-d7.patch"
+projects[drupal][patch][] = "https://raw.github.com/gist/1131120/0b4e69fd39ddfafd4b56619065a7e03e9fc027fb/htaccess-robots-custom-d7.patch"
 
 ; Installation Profile
 ; --------------------
