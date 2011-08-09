@@ -57,6 +57,10 @@ drush site-install dirt\
 
 chmod -R 777 sites/oc-dev/files
 
+echo "
+  Well that went surprisingly well. Now let's set up the custom theme
+"
+
 path=`pwd`
 subdir=`basename $path`
 read -p "What should the custom theme be named? (Human readable) [$subdir] " themename
@@ -70,9 +74,15 @@ rm -rf $themedir/.git
 mv $themedir/skeleton.info $themedir/$themename_machine.info
 sed -i -e "s/Skeleton/$themename/g" $path/$themedir/$themename_machine.info
 
+read -p "Set the custom theme as default? [n] " enabletheme
+if [[ $enabletheme =~ ^[Yy]$ ]]; then
+  drush en $themename_machine -l oc-dev -y
+  drush vset theme_default $themename_machine -l oc-dev --yes
+  drush dis bartik -l oc-dev -y
+fi
+
 echo "
-  Well that went surprisingly well. Now let's take care of a few things. Just
-  icing on the cake, really.
+  Now for some finishing touches...
 "
 
 read -p "Would you like to enable securepages? (Beware, you'll regret this if you don't have SSL already set up properly) [y] " usessl
@@ -85,3 +95,8 @@ read -p "What is your api key for textcaptcha.com? " textcaptcha_api_key
 if [[ $textcaptcha_api_key ]]; then
   drush vset textcaptcha_api_key $textcaptcha_api_key -l oc-dev --yes
 fi
+
+echo "
+  Congrats! It looks like everything went well. Don't forget to set up symlinks
+  for the sites directory.
+"
