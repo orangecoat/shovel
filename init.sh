@@ -123,4 +123,9 @@ if [[ $proceed =~ ^[Yy]$ ]]; then
   Congrats! It looks like everything went well. Don't forget to set up
   symlinks for the sites directory.
   "
+
+  read -p "Remove this file? [y] " selfdestruct
+  if [[ $selfdestruct =~ ^[Yy]$ ]]; then
+    rm $0
+  fi
 fi
